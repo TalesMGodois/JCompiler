@@ -5,5 +5,8 @@ package signature;
  */
 public interface ILexico {
 
+    public String getToken();
+
+
 
 }

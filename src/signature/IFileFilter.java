@@ -1,16 +1,22 @@
 package signature;
 
-import java.io.File;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * Created by tales on 15/11/15.
  */
 public interface IFileFilter {
-    public void importFile(String file);
+    public void importFile(String file) throws FileNotFoundException;
 
-    public String getFirstLine();
+    public void readLines();
 
+    public void setLines();
 
-    public int getHashCode();
+    public FileReader getMain();
+
+    public ArrayList<String> getArrayStrings();
 
 }

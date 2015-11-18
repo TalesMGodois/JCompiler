@@ -70,6 +70,8 @@ public class Lexico implements ILexico{
             return "L";
         if(Character.isDigit(character))
             return "D";
+        if(character == '(' || character == ')')
+            return "Parentese";
         if(character == ' ')
             return "Space";
         if(character == '\n')
@@ -77,7 +79,9 @@ public class Lexico implements ILexico{
         if(character == '\t')
             return "TBar";
         if(character == '\'')
-            return "Aspa";
+            return "AspaC";
+        if(character == '\"')
+            return "AspaS";
         if(character == '*' || character == '/'|| character == '+'|| character == '-' )
             return "M";
         if(character == '>' || character == '='|| character == '<' )

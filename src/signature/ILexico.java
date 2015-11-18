@@ -17,4 +17,6 @@ public interface ILexico {
 
     public boolean isToken(String key);
 
+    public String getGroup(char character);
+
 }

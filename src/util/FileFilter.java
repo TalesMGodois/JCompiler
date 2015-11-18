@@ -29,7 +29,6 @@ public class FileFilter implements IFileFilter {
     public void importFile(String file) throws FileNotFoundException {
         FileReader ff = new FileReader(file);
         this.main = ff;
-
     }
 
     @Override

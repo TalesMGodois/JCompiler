@@ -3,6 +3,7 @@ package analyser.lexico;
 import signature.ILexico;
 import signature.IToken;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -18,15 +19,15 @@ public class Lexico implements ILexico{
 
 
     public void loadReservedKeyWords() {
-        this.SymbolTable.put("inicio",new Token("inicio","inicio","palavraREservada"));
-        this.SymbolTable.put("varinicio",new Token("varinicio","varinicio","palavraREservada"));
-        this.SymbolTable.put("varfim",new Token("varfim","varfim","palavraREservada"));
-        this.SymbolTable.put("escreva",new Token("escreva","escreva","palavraREservada"));
-        this.SymbolTable.put("leia",new Token("leia","leia","palavraREservada"));
-        this.SymbolTable.put("se",new Token("se","se","palavraREservada"));
-        this.SymbolTable.put("entao",new Token("entao","entao","palavraREservada"));
-        this.SymbolTable.put("fimse",new Token("fimse","fimse","palavraREservada"));
-        this.SymbolTable.put("fim",new Token("fim","inicio","palavraREservada"));
+        this.SymbolTable.put("inicio",new Token(TokenTable.PR(),"inicio",""));
+        this.SymbolTable.put("varinicio",new Token(TokenTable.PR(),"varinicio",""));
+        this.SymbolTable.put("varfim",new Token(TokenTable.PR(),"varfim",""));
+        this.SymbolTable.put("escreva",new Token(TokenTable.PR(),"escreva",""));
+        this.SymbolTable.put("leia",new Token(TokenTable.PR(),"leia",""));
+        this.SymbolTable.put("se",new Token(TokenTable.PR(),"se",""));
+        this.SymbolTable.put("entao",new Token(TokenTable.PR(),"entao",""));
+        this.SymbolTable.put("fimse",new Token(TokenTable.PR(),"fimse",""));
+        this.SymbolTable.put("fim",new Token(TokenTable.PR(),"inicio",""));
     }
 
     @Override
@@ -58,6 +59,31 @@ public class Lexico implements ILexico{
         }else {
             return false;
         }
+    }
+
+    @Override
+    public String getGroup(char character) {
+
+        if(character == 'E')
+            return "E";
+        if(Character.isLetter(character))
+            return "L";
+        if(Character.isDigit(character))
+            return "D";
+        if(character == ' ')
+            return "Space";
+        if(character == '\n')
+            return "NBar";
+        if(character == '\t')
+            return "TBar";
+        if(character == '\'')
+            return "Aspa";
+        if(character == '*' || character == '/'|| character == '+'|| character == '-' )
+            return "M";
+        if(character == '>' || character == '='|| character == '<' )
+            return "B";
+        else return "NotSet";
+
     }
 
 }

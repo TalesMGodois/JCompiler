@@ -12,6 +12,14 @@ import java.util.Hashtable;
 public class Lexico implements ILexico{
     private Hashtable<String,Token> SymbolTable;
 
+    private final int[][] TransitionTable = {
+            {0,9,1,-1,24,25,7,0,0,-1,12,20,21,11,10,-1,-1,13,17,19,23,22},
+
+
+            {1,-1,1,4,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        }
+    };
+
     public Lexico(){
         this.SymbolTable = new Hashtable<String, Token>();
         this.loadReservedKeyWords();

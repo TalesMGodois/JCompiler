@@ -3,6 +3,8 @@ package analyser.lexico;
 import signature.ILexico;
 import signature.IToken;
 
+import java.awt.datatransfer.FlavorListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -11,11 +13,15 @@ import java.util.Hashtable;
  */
 public class Lexico implements ILexico{
     private Hashtable<String,Token> SymbolTable;
+    private ArrayList<String> tokens;
+    private int positionLine =0;
+    private int positionFinal;
 
     private final int[][] TransitionTable = {
+
             {0,9,1,-1,24,25,7,0,0,-1,12,20,21,11,10,-1,-1,13,17,19,23,22},
 
-            {1,-1,1,4,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
+            {1,-1,1,4,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 
             {2,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 
@@ -71,6 +77,7 @@ public class Lexico implements ILexico{
 
     public Lexico(){
         this.SymbolTable = new Hashtable<String, Token>();
+        this.tokens = new ArrayList<String>();
         this.loadReservedKeyWords();
     }
 
@@ -88,7 +95,7 @@ public class Lexico implements ILexico{
     }
 
     @Override
-    public Token getToken(char key) {
+    public Token getToken(String key) {
         return this.SymbolTable.get(key);
     }
 
@@ -99,13 +106,8 @@ public class Lexico implements ILexico{
 
     @Override
     public Token[] getTokensFromLine(String line) {
-        Token[] tokens = new Token[line.length()];
-        for(int i=0;i<line.length();i++){
-            tokens[i] = this.getToken(line.charAt(i));
-            System.out.println(line.charAt(i));
-        }
 
-        return tokens ;
+        return new Token[0];
     }
 
     @Override
@@ -119,32 +121,90 @@ public class Lexico implements ILexico{
     }
 
     @Override
-    public String getGroup(char character) {
+    public Token lexico(String line) {
+        int state = 0;
+        int i = this.positionLine;
+        while (this.TransitionTable[state][line.charAt(i)] != -1){
+            state = this.TransitionTable[state][line.charAt(i)];
+            i++;
+        }
+
+        String txt = line.substring(this.positionLine,i);
+        if(isToken(txt)){
+            return this.SymbolTable.get(txt);
+        }else{
+            Token tk = new Token(this.getTokenName(state),txt,"");
+            this.addToken(txt,tk);
+        }
+
+        return this.getToken(txt);
+    }
+
+    @Override
+    public int getGroup(char character) {
 
         if(character == 'E')
-            return "E";
+            return Flags.E;
         if(Character.isLetter(character))
-            return "L";
-        if(Character.isDigit(character))
-            return "D";
-        if(character == '(' || character == ')')
-            return "Parentese";
+            return Flags.L;
+        if(Character.isDigit(character)) {
+            return Flags.D;
+        }
+        if(character == '(')
+            return Flags.AB_P;
         if(character == ' ')
-            return "Space";
+            return Flags.SPACE;
         if(character == '\n')
-            return "NBar";
-        if(character == '\t')
-            return "TBar";
-        if(character == '\'')
-            return "AspaC";
-        if(character == '\"')
-            return "AspaS";
-        if(character == '*' || character == '/'|| character == '+'|| character == '-' )
-            return "M";
-        if(character == '>' || character == '='|| character == '<' )
-            return "B";
-        else return "NotSet";
+            return Flags.barraN;
+        if(character == '*')
+            return Flags.MULT;
+        if(character == '/')
+            return Flags.DIV;
+        if(character == '+')
+            return Flags.PLUS;
+        if(character == '-' )
+            return Flags.MINUS;
+        if(character == '>' )
+            return Flags.MAIOR;
+        if(character == '=' )
+            return Flags.IGUAL;
+        if(character == '<' )
+            return Flags.MENOR;
+        if(character == '.')
+            return Flags.PT_F;
+        if(character == ';')
+            return Flags.PT_V;
+        if(character == '{')
+            return Flags.AB_C;
+        if(character == '}')
+            return Flags.FC_C;
+        else{
+            return Flags.QUALQUER;
+        }
 
     }
+
+    public String getTokenName(int state ) {
+        switch (state){
+            case 0:
+                return TokenTable.LITERAL();
+            case 1:
+                return TokenTable.NUM();
+            case 2:
+                return TokenTable.COMMENT();
+            case 3:
+                return TokenTable.AB_P();
+            case 4:
+                return TokenTable.FC_P();
+            case 5:
+                return TokenTable.PT_V();
+            case 6:
+                return TokenTable.ID();
+            default:
+                return TokenTable.ERRO();
+
+        }
+    }
+    
 
 }

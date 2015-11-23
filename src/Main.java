@@ -16,20 +16,11 @@ public class Main {
         ff.readLines();
         ff.setLines();
 
-
         Lexico lexico = new Lexico();
 
         lexico.getGroup('/');
 
         String strs = "inicio(eu)'+/\" 8997897 +=";
-
-        for(int i =0; i< strs.length();i++){
-            String s = lexico.getGroup(strs.charAt(i));
-            if(s.equals("NotSet")){
-                System.out.println(strs.charAt(i));
-
-            }
-        }
 
 
         System.out.println("...The End");

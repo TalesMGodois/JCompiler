@@ -7,7 +7,7 @@ import analyser.lexico.Token;
  */
 public interface ILexico {
 
-    public Token getToken(char key);
+    public Token getToken(String key);
 
     public void loadReservedKeyWords();
 
@@ -17,6 +17,8 @@ public interface ILexico {
 
     public boolean isToken(String key);
 
-    public String getGroup(char character);
+    public Token lexico(String line);
+
+    public int getGroup(char character);
 
 }

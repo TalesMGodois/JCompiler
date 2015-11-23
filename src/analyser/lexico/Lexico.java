@@ -104,11 +104,6 @@ public class Lexico implements ILexico{
         this.SymbolTable.put(key,tk);
     }
 
-    @Override
-    public Token[] getTokensFromLine(String line) {
-
-        return new Token[0];
-    }
 
     @Override
     public boolean isToken(String key) {
@@ -124,10 +119,21 @@ public class Lexico implements ILexico{
     public Token lexico(String line) {
         int state = 0;
         int i = this.positionLine;
-        while (this.TransitionTable[state][line.charAt(i)] != -1){
-            state = this.TransitionTable[state][line.charAt(i)];
-            i++;
+
+        try{
+            while (i < line.length() || this.TransitionTable[state][this.getGroup(line.charAt(i))] != -1 ){
+                state = this.TransitionTable[state][this.getGroup(line.charAt(i))];
+
+                i++;
+                if(i>= line.length())
+                    break;
+            }
+        }catch (StringIndexOutOfBoundsException e){
+            System.out.println("...");
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("...");
         }
+
 
         String txt = line.substring(this.positionLine,i);
         if(isToken(txt)){
@@ -137,6 +143,8 @@ public class Lexico implements ILexico{
             this.addToken(txt,tk);
         }
 
+        System.out.println(this.getToken(txt).toString());
+        this.positionLine = i;
         return this.getToken(txt);
     }
 
@@ -205,6 +213,8 @@ public class Lexico implements ILexico{
 
         }
     }
-    
 
+    public void reset(){
+        this.positionLine = 0;
+    }
 }

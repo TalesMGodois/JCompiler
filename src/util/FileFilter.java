@@ -36,6 +36,10 @@ public class FileFilter implements IFileFilter {
         this.lines = this.getArrayStrings();
     }
 
+    public ArrayList<String> getLines(){
+        return this.lines;
+    }
+
     @Override
     public void readLines() {
         Scanner input = new Scanner(this.main).useDelimiter("\\||\\n");

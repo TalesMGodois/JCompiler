@@ -13,11 +13,11 @@ public interface ILexico {
 
     public void addToken(String key,Token tk);
 
-    public Token[] getTokensFromLine(String line);
-
     public boolean isToken(String key);
 
     public Token lexico(String line);
+
+    public String getTokenName(int state );
 
     public int getGroup(char character);
 

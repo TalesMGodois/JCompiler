@@ -4,25 +4,24 @@ import signature.ILexico;
 import util.FileFilter;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 
 /**
  * Created by tales on 15/11/15.
  */
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        FileFilter ff = new FileFilter();
-        ff.importFile("/home/tales/IdeaProjects/JCompiler/src/codigo.txt");
+    public static void main(String[] args) throws IOException {
+        FileFilter ff = new FileFilter("/home/tales/IdeaProjects/JCompiler/src/codigo.txt");
         ff.readLines();
-        ff.setLines();
 
 
-        Lexico lexico = new Lexico();
-        for(String txt:ff.getLines()){
-
-            lexico.lexico(txt);
-            lexico.reset();
-        }
+//        Lexico lexico = new Lexico();
+//        for(String txt:ff.getLines()){
+//
+//            lexico.lexico(txt);
+//            lexico.reset();
+//        }
 
         System.out.println("...The End");
     }

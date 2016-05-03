@@ -3,6 +3,7 @@ package signature;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -11,12 +12,8 @@ import java.util.ArrayList;
 public interface IFileFilter {
     public void importFile(String file) throws FileNotFoundException;
 
-    public void readLines();
+    public void readLines() throws IOException;
 
-    public void setLines();
-
-    public FileReader getMain();
-
-    public ArrayList<String> getArrayStrings();
+    public FileReader getFile();
 
 }

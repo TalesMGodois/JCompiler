@@ -2,8 +2,10 @@ package util;
 
 import signature.IFileFilter;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -12,52 +14,36 @@ import java.util.Scanner;
  * Created by tales on 15/11/15.
  */
 public class FileFilter implements IFileFilter {
-    private FileReader main;
+    private FileReader file;
     private ArrayList<String> lines;
+    private String sFile = "";
 
 
-    public FileFilter(){
-        this.lines = new ArrayList<String>();
+    public FileFilter(String file) throws FileNotFoundException {
+        this.importFile(file);
     }
 
     @Override
-    public FileReader getMain(){
-        return this.main;
+    public FileReader getFile(){
+        return this.file;
     }
 
     @Override
     public void importFile(String file) throws FileNotFoundException {
         FileReader ff = new FileReader(file);
-        this.main = ff;
+        this.file = ff;
     }
 
     @Override
-    public void setLines(){
-        this.lines = this.getArrayStrings();
-    }
+    public void readLines() throws IOException {
+        BufferedReader br = new BufferedReader(this.file);
+        String current;
 
-    public ArrayList<String> getLines(){
-        return this.lines;
-    }
-
-    @Override
-    public void readLines() {
-        Scanner input = new Scanner(this.main).useDelimiter("\\||\\n");
-        String line = "";
-        try{
-            while(input.hasNext()){
-                line = input.next();
-
-                this.lines.add(line);
-            }
-        }catch (NoSuchElementException e){
-            e.printStackTrace();
+        while ((current = br.readLine()) != null) {
+            this.sFile = this. sFile + current + "\n";
+            System.out.println(current);
         }
-    }
-
-    @Override
-    public ArrayList<String> getArrayStrings() {
-        return this.lines;
+        this.sFile += "#";
     }
 
 }

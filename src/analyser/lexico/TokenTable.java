@@ -17,17 +17,9 @@ public class TokenTable {
         return "PR";
     }
 
-    public static String OCM(){
-        return "OCM";
-    }
+    public static String SPACE(){return "SPACE";}
 
-    public static String EOF(){
-        return "EOF";
-    }
-
-    public static String ID(){
-        return "ID";
-    }
+    public static String ID(){return "identificador";}
 
     public static String COMMENT(){
         return "Comment";
@@ -52,6 +44,8 @@ public class TokenTable {
     public static String OPM(){
         return "OPM";
     }
+
+    public static String EOF() {return "EOF";}
 
     public static String AB_P(){
         return "AB_P";

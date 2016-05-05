@@ -15,7 +15,8 @@ public class Lexico {
     private Hashtable<String,Token> SymbolTable;
     private ArrayList<String> tokens;
     private int positionLine =0;
-    private int positionFinal;
+    private int line;
+    private int position;
 
     private final int[][] TransitionTable = {
 
@@ -111,8 +112,6 @@ public class Lexico {
     public void addToken(String key,Token tk){
         this.SymbolTable.put(key,tk);
     }
-
-
     
     public boolean isToken(String key) {
         Token token = this.SymbolTable.get(key);
@@ -124,35 +123,37 @@ public class Lexico {
     }
 
     
-    public Token lexico(String line) {
-        int state = 0;
-        int i = this.positionLine;
+    public String lexico(String text) {
+        int state  		= 0;
+        int state_ant   = 0;
+        int size 		= text.length();
 
+        char character = ' ';
         try{
-            while (i < line.length() || this.TransitionTable[state][this.getGroup(line.charAt(i))] != -1 ){
-                state = this.TransitionTable[state][this.getGroup(line.charAt(i))];
+            do {
+                character = text.charAt(this.position);
+                state_ant = state;
+                state = TransitionTable[state][getGroup(character)];
+                this.position++;
 
-                i++;
-                if(i>= line.length())
-                    break;
-            }
+            }while(state != -1  );
+            state = 0;
+            this.position --;
         }catch (StringIndexOutOfBoundsException e){
             System.out.println("...");
         }catch (ArrayIndexOutOfBoundsException e){
             System.out.println("...");
         }
 
-        String txt = line.substring(this.positionLine,i);
-        if(isToken(txt)){
-            return this.SymbolTable.get(txt);
-        }else{
-            Token tk = new Token(this.mapa_estado_token(state),txt,"");
-            this.addToken(txt,tk);
-        }
+//        if(isToken(txt)){
+//            return this.SymbolTable.get(txt);
+//        }else{
+//            Token tk = new Token(this.mapa_estado_token(state),txt,"");
+//            this.addToken(txt,tk);
+//        }
 
-        System.out.println(this.getToken(txt).toString());
-        this.positionLine = i;
-        return this.getToken(txt);
+//        System.out.println(this.getToken(txt).toString());
+        return this.mapa_estado_token(state_ant);
     }
 
 

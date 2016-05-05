@@ -22,6 +22,9 @@ public class FileFilter implements IFileFilter {
     public FileFilter(String file) throws FileNotFoundException {
         this.importFile(file);
     }
+    public String getSFile(){
+    	return this.sFile;
+    }
 
     @Override
     public FileReader getFile(){
@@ -41,7 +44,6 @@ public class FileFilter implements IFileFilter {
 
         while ((current = br.readLine()) != null) {
             this.sFile = this. sFile + current + "\n";
-            System.out.println(current);
         }
         this.sFile += "#";
     }

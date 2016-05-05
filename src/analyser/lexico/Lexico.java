@@ -134,11 +134,17 @@ public class Lexico {
                 character = text.charAt(this.position);
                 state_ant = state;
                 state = TransitionTable[state][getGroup(character)];
+                if(state == 0){
+                    state_ant = state;
+                    state = -1;
+                }
                 this.position++;
 
-            }while(state != -1  );
-            state = 0;
-            this.position --;
+            }while(state != -1 && this.position < size );
+            if(state_ant != 0){
+                this.position --;
+            }
+
         }catch (StringIndexOutOfBoundsException e){
             System.out.println("...");
         }catch (ArrayIndexOutOfBoundsException e){

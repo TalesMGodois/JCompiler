@@ -17,7 +17,7 @@ public class TokenTable {
         return "PR";
     }
 
-    public static String SPACE(){return "SPACE";}
+    public static String SPACE(){return "SPACE OR /n";}
 
     public static String ID(){return "identificador";}
 

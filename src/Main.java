@@ -17,9 +17,11 @@ public class Main {
         ff.readLines();
         String text = ff.getSFile();
 
+        System.out.printf(text);
         Lexico lexico = new Lexico();
         
         String token = "";
+
         while(( token = lexico.lexico(text)) != TokenTable.ERRO() && token !=TokenTable.EOF()){
             System.out.println(token);
 

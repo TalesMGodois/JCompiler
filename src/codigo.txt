@@ -1,4 +1,4 @@
-inicio
+inicio "teste"
  varinicio
  A literal;
  B inteiro;

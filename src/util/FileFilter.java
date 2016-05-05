@@ -43,7 +43,7 @@ public class FileFilter implements IFileFilter {
         String current;
 
         while ((current = br.readLine()) != null) {
-            this.sFile = this. sFile + current + "\n";
+            this.sFile = this. sFile + current;
         }
         this.sFile += "#";
     }

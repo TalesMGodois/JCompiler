@@ -1,12 +1,8 @@
 import analyser.lexico.Lexico;
-import analyser.lexico.Token;
 import analyser.lexico.TokenTable;
-import signature.ILexico;
 import util.FileFilter;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Hashtable;
 
 /**
  * Created by tales on 15/11/15.
@@ -17,7 +13,6 @@ public class Main {
         ff.readLines();
         String text = ff.getSFile();
 
-        System.out.printf(text);
         Lexico lexico = new Lexico();
         
         String token = "";

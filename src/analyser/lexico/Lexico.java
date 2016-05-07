@@ -166,65 +166,65 @@ public class Lexico {
     public int getGroup(char character) {
 
         if(character == 'E')
-            return 14;
+            return Flags.E;
         if(Character.isLetter(character))
-            return 1;
+            return Flags.L;
         if(Character.isDigit(character)) {
-            return 0 ;
+            return Flags.D;
         }
         if(character == '(')
-            return 6;
+            return Flags.AB_P;
 
         if(character == ')')
-            return 7;
+            return Flags.FC_P;
 
         if(character == ' ')
-            return 21;
+            return Flags.SPACE;
 
         if(character == '\n')
-            return 16;
+            return Flags.barraN;
 
         if(character == '*')
-            return 4;
+            return Flags.MULT;
 
         if(character == '/')
-            return 5;
+            return Flags.DIV;
 
         if(character == '+')
-            return 2;
+            return Flags.PLUS;
 
         if(character == '-' )
-            return 3;
+            return Flags.MINUS;
 
         if(character == '>' )
-            return 12;
+            return Flags.MAIOR;
 
         if(character == '=' )
-            return 13;
+            return Flags.IGUAL;
 
         if(character == '<' )
-            return 11;
+            return Flags.MENOR;
 
         if(character == '.')
-            return 19;
+            return Flags.PT_F;
 
         if(character == ';')
-            return 15;
+            return Flags.PT_V;
 
         if(character == '"')
-            return 22;
+            return Flags.ASPA_D;
 
         if(character == '{')
-            return 9;
+            return Flags.AB_C;
 
         if(character == '}')
-            return 10;
+            return Flags.FC_C;
 
         if(character == '_')
-            return 18;
+            return Flags.UL;
 
         if(character == '#')
-            return 20;
+            return Flags.EOF;
 
         else{
             return Flags.QQ;

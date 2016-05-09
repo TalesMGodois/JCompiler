@@ -1,8 +1,10 @@
 import analyser.lexico.Lexico;
+import analyser.lexico.Token;
 import analyser.lexico.TokenTable;
 import util.FileFilter;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 /**
  * Created by tales on 15/11/15.
@@ -18,15 +20,14 @@ public class Main {
         String token = "";
 
         while(( token = lexico.lexico(text)) != TokenTable.ERRO() && token !=TokenTable.EOF()){
-            System.out.println(token);
+            System.out.println(lexico.getTk().toString());
 
         }
-        
-//        for(int i =0;i< size -1;i++){
-//        	char character = text.charAt(i);
-//        	lexico.lexico(character);
-//        }
-//        
+
+        if(token == TokenTable.ERRO()){
+            System.out.println("Erro em (linha,posicao): "+ lexico.getLineAndPosition());
+        }
+//        Hashtable<String,Token> hashtable = lexico.getHashTable();
 
         System.out.println("...The End");
     }

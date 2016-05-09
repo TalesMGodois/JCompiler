@@ -14,9 +14,12 @@ import java.util.Hashtable;
 public class Lexico {
     private Hashtable<String,Token> SymbolTable;
     private ArrayList<String> tokens;
-    private int positionLine =0;
-    private int line;
+    private char character = ' ';
+
+    private int positionLine;
+    private int line = 1;
     private int position;
+    private Token tk;
 
     private final int[][] TransitionTable = {
 
@@ -33,7 +36,7 @@ public class Lexico {
 
 /*STATE 4*/ {	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //4
 
-/*STATE 5*/ {	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	 8,	-1,	 7,	 6,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //5
+/*STATE 5*/ {	-1,	-1,	-1,	8,	-1,	-1,	-1,	-1,	-1,	-1,	 8,	-1,	 7,	 6,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //5
 
 /*STATE 6*/ {	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //6
 
@@ -69,11 +72,11 @@ public class Lexico {
 
 /*STATE 21*/{	21,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //21
 
-/*STATE 22*/{	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	23,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	22,	-1,	-1,	-1,	-1}, //22
+/*STATE 22*/{	22,	22,	22,	22,	22,	22,	22,	22,	23,	22,	22,	22,	22,	22,	22,	22,	22,	22,	22,	22,	22,	22}, //22
 
 /*STATE 23*/{	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //23
 
-/*STATE 24*/{	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	25,	-1,	-1,	-1,	-1,	-1,	-1,	24,	-1,	-1,	-1,	-1}, //24
+/*STATE 24*/{	24,	24,	24,	24,	24,	24,	24,	24,	24,	24,	25,	24,	24,	24,	24,	24,	24,	24,	24,	24,	24,	24}, //24
 
 /*STATE 25*/{	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1,	-1}, //25
 
@@ -87,20 +90,23 @@ public class Lexico {
         this.loadReservedKeyWords();
     }
 
+    public Hashtable<String,Token> getHashTable(){
+        return this.SymbolTable;
+    }
 
     public void loadReservedKeyWords() {
-        this.SymbolTable.put("inicio",new Token(TokenTable.PR(),"inicio",""));
-        this.SymbolTable.put("varinicio",new Token(TokenTable.PR(),"varinicio",""));
-        this.SymbolTable.put("varfim",new Token(TokenTable.PR(),"varfim",""));
-        this.SymbolTable.put("escreva",new Token(TokenTable.PR(),"escreva",""));
-        this.SymbolTable.put("leia",new Token(TokenTable.PR(),"leia",""));
-        this.SymbolTable.put("se",new Token(TokenTable.PR(),"se",""));
-        this.SymbolTable.put("entao",new Token(TokenTable.PR(),"entao",""));
-        this.SymbolTable.put("fimse",new Token(TokenTable.PR(),"fimse",""));
-        this.SymbolTable.put("fim",new Token(TokenTable.PR(),"inicio",""));
-        this.SymbolTable.put("Inteiro",new Token(TokenTable.PR(),"inteiro",""));
-        this.SymbolTable.put("Real",new Token(TokenTable.PR(),"real",""));
-        this.SymbolTable.put("Literal",new Token(TokenTable.PR(),"literal",""));
+        this.SymbolTable.put("inicio",TokenTable.PR());
+        this.SymbolTable.put("varinicio",TokenTable.PR());
+        this.SymbolTable.put("varfim",TokenTable.PR());
+        this.SymbolTable.put("escreva",TokenTable.PR());
+        this.SymbolTable.put("leia",TokenTable.PR());
+        this.SymbolTable.put("se",TokenTable.PR());
+        this.SymbolTable.put("entao",TokenTable.PR());
+        this.SymbolTable.put("fimse",TokenTable.PR());
+        this.SymbolTable.put("fim",TokenTable.PR());
+        this.SymbolTable.put("Inteiro",TokenTable.PR());
+        this.SymbolTable.put("Real",TokenTable.PR());
+        this.SymbolTable.put("Literal",TokenTable.PR());
     }
 
     
@@ -122,18 +128,30 @@ public class Lexico {
         }
     }
 
-    
-    public String lexico(String text) {
+    public Token getTk(){
+        return this.tk;
+    }
+
+    public String getLineAndPosition(){
+        return ("("+this.line+","+this.positionLine+")");
+    }
+
+    public Token lexico(String text) {
+        int state_ant;
         int state  		= 0;
-        int state_ant   = 0;
         int size 		= text.length();
 
-        char character = ' ';
+        String txt;
+        int startWord   = this.position;
+        int endWord;
+        this.positionLine = 0;
         try{
             do {
-                character = text.charAt(this.position);
+                this.positionLine++;
+                this.character = text.charAt(this.position);
+
                 state_ant = state;
-                state = TransitionTable[state][getGroup(character)];
+                state = TransitionTable[state][getGroup(this.character)];
                 if(state == 0){
                     state_ant = state;
                     state = -1;
@@ -146,19 +164,22 @@ public class Lexico {
             }
 
         }catch (StringIndexOutOfBoundsException e){
-            System.out.println("...");
+            System.out.println("string of bounds");
+            state_ant = -1;
         }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("...");
+            state_ant = -1;
+            System.out.println("Array Index Of Bounds");
         }
 
-//        if(isToken(txt)){
-//            return this.SymbolTable.get(txt);
-//        }else{
-//            Token tk = new Token(this.mapa_estado_token(state),txt,"");
-//            this.addToken(txt,tk);
-//        }
+        endWord = this.position;
+        txt = text.substring(startWord,endWord);
 
-//        System.out.println(this.getToken(txt).toString());
+        if(!isToken(txt) && txt != "\n" && txt != " "){
+            this.tk = this.mapa_estado_token(state_ant);
+            this.tk.setLexema(txt);
+            this.addToken(txt,this.tk);
+        }
+        this.tk = this.getToken(txt);
         return this.mapa_estado_token(state_ant);
     }
 
@@ -232,7 +253,7 @@ public class Lexico {
 
     }
 
-    public String mapa_estado_token(int state ) {
+    public Token mapa_estado_token(int state ) {
         switch (state){
             case 0:
                 return TokenTable.SPACE();
@@ -269,27 +290,27 @@ public class Lexico {
             case 16:
                 return TokenTable.NUM();
             case 17:
-                return TokenTable.ERRO();
+                return new Erro("ERRO","Erro_TEXTO_FINALIZANDO_EM_PONTO","");
             case 18:
                 return TokenTable.NUM();
             case 19:
-                 return TokenTable.ERRO();
+                return new Token("ERRO","ERRO_EXPONENCIAL","");
             case 20:
-                return TokenTable.ERRO();
+                return new Token("ERRO","EXPONENCIAL_SINAL_SEM_NUMERO","");
             case 21:
                 return TokenTable.NUM();
             case 22:
-                return TokenTable.ERRO();
+                return new Token("ERRO","ERRO_ABRE_ASPA","");
             case 23:
                 return TokenTable.LITERAL();
             case 24:
-                return TokenTable.ERRO();
+                return new Token("ERRO","ERRO_AO_ABRIR_COMENTARIO","");
             case 25:
                 return TokenTable.COMMENT();
             case 26:
                 return TokenTable.EOF();
             default:
-                return TokenTable.ERRO();
+                return new Token("ERRO","ERRO_DEFAULT","");
 
         }
     }

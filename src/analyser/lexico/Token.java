@@ -28,12 +28,22 @@ public class Token implements IToken{
         return atributo;
     }
 
-    public String toString(){
-        String aux = "Token = " + token + "\n";
-        aux = aux + "Lexema = " + lexema + "\n";
-        aux = aux + "Atributo = " + atributo + "\n";
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-        return aux;
+    public void setAtributo(String atributo) {
+        this.atributo = atributo;
+    }
+
+    public void setLexema(String lexema){
+        this.lexema = lexema;
+
+    }
+
+    public String toString(){
+
+        return "Token("+this.token+","+this.lexema+")";
     }
 
 }

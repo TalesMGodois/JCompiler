@@ -1,66 +1,72 @@
 package analyser.lexico;
 
+import java.util.ArrayList;
+
 /**
  * Created by tales on 16/11/15.
  */
 public class TokenTable {
     private static TokenTable ourInstance = new TokenTable();
-
+    private static ArrayList<Token> tokens = new ArrayList<>();
     public static TokenTable getInstance() {
         return ourInstance;
     }
 
-    private TokenTable() {
+//    private TokenTable() {
+//        tokens.add(new Erro(""))
+//
+//    }
+
+    public static Token PR(){
+        return new Token("PR","","");
     }
 
-    public static String PR(){
-        return "PR";
+    public static Token SPACE(){
+        return new Token("SPACE","","");
     }
 
-    public static String SPACE(){return "SPACE OR /n";}
-
-    public static String ID(){return "identificador";}
-
-    public static String COMMENT(){
-        return "Comment";
+    public static Token ID(){
+        return new Token("ID","","");
     }
 
-    public static String NUM(){
-        return "Num";
+    public static Token COMMENT(){
+        return new Token("Comment","","");
     }
 
-    public static String LITERAL(){
-        return "Literal";
+    public static Token NUM(){
+        return new Token("Num","","");
     }
 
-    public static String OPR(){
-        return "OPR";
+    public static Token LITERAL(){
+        return new Token("Literal","","");
     }
 
-    public static String RCB(){
-        return "RCB";
+    public static Token OPR(){
+        return new Token("OPR","","");
     }
 
-    public static String OPM(){
-        return "OPM";
+    public static Token RCB(){
+        return new Token("RCB","","");
     }
 
-    public static String EOF() {return "EOF";}
-
-    public static String AB_P(){
-        return "AB_P";
+    public static Token OPM(){
+        return new Token("OPM","","");
     }
 
-    public static String FC_P(){
-        return "FC_P";
+    public static Token EOF() {
+        return new Token("EOF","","");
     }
 
-    public static String PT_V(){
-        return "PT_V";
+    public static Token AB_P(){
+        return new Token("AB_P","","");
     }
 
-    public static String ERRO(){
-        return "ERRO";
+    public static Token FC_P(){
+        return new Token("FC_P","","");
+    }
+
+    public static Token PT_V(){
+        return new Token("PT_V","","");
     }
 
 }

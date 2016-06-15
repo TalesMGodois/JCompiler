@@ -1,8 +1,5 @@
-{asdasdasd}
-
-inicio "teste"
+inicio
    varinicio
-{asdasdasd}}
  A literal;
  B inteiro;
  D inteiro;

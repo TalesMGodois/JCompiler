@@ -1,6 +1,6 @@
 package signature;
 
-import analyser.lexico.Token;
+import util.Token;
 
 /**
  * Created by tales on 15/11/15.

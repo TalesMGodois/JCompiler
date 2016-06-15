@@ -1,5 +1,7 @@
 package analyser.lexico;
 
+import util.Token;
+
 import java.util.ArrayList;
 
 /**
@@ -68,5 +70,9 @@ public class TokenTable {
     public static Token PT_V(){
         return new Token("PT_V","","");
     }
+
+    public static  String ERRO(){return "ERRO";}
+
+//    public static String FIM_ARQUIVO(){return "FIM_ARQUIVO";}
 
 }

@@ -1,19 +1,15 @@
 package analyser.lexico;
 
-import signature.ILexico;
-import signature.IToken;
+import util.Erro;
+import util.Token;
 
-import java.awt.datatransfer.FlavorListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
  * Created by tales on 15/11/15.
  */
 public class Lexico {
-    private Hashtable<String,Token> SymbolTable;
-    private ArrayList<String> tokens;
+    private Hashtable<String, Token> SymbolTable;
     private char character = ' ';
 
     private int positionLine;
@@ -86,7 +82,6 @@ public class Lexico {
 
     public Lexico(){
         this.SymbolTable = new Hashtable<String, Token>();
-        this.tokens = new ArrayList<String>();
         this.loadReservedKeyWords();
     }
 
@@ -118,6 +113,11 @@ public class Lexico {
     public void addToken(String key,Token tk){
         this.SymbolTable.put(key,tk);
     }
+
+    public void updateToken(String key, Token tk){
+        Token tok = this.SymbolTable.get(key);
+        tok.setLexema(tk.getLexema());
+    }
     
     public boolean isToken(String key) {
         Token token = this.SymbolTable.get(key);
@@ -147,18 +147,24 @@ public class Lexico {
         this.positionLine = 0;
         try{
             do {
-                this.positionLine++;
+
                 this.character = text.charAt(this.position);
 
+                this.positionLine++;
                 state_ant = state;
                 state = TransitionTable[state][getGroup(this.character)];
                 if(state == 0){
                     state_ant = state;
                     state = -1;
                 }
+
+                if(this.character == '\n'){
+                    this.positionLine = 0;
+                }
                 this.position++;
 
-            }while(state != -1 && this.position < size );
+            }while(state != -1 && this.position < size  && this.position < size);
+
             if(state_ant != 0){
                 this.position --;
             }
@@ -174,13 +180,21 @@ public class Lexico {
         endWord = this.position;
         txt = text.substring(startWord,endWord);
 
+        this.tk = this.mapa_estado_token(state_ant);
+        this.tk.setLexema(txt);
+
         if(!isToken(txt) && txt != "\n" && txt != " "){
-            this.tk = this.mapa_estado_token(state_ant);
-            this.tk.setLexema(txt);
             this.addToken(txt,this.tk);
+        }else{
+            this.updateToken(txt,tk);
         }
+
         this.tk = this.getToken(txt);
-        return this.mapa_estado_token(state_ant);
+        return this.tk;
+
+//        return this.mapa_estado_token(state_ant);
+
+
     }
 
 
@@ -256,6 +270,10 @@ public class Lexico {
     public Token mapa_estado_token(int state ) {
         switch (state){
             case 0:
+                if(this.character == '\n'){
+                    this.positionLine = 0;
+                    this.line++;
+                }
                 return TokenTable.SPACE();
             case 1:
                 return TokenTable.OPM();
@@ -315,7 +333,4 @@ public class Lexico {
         }
     }
 
-    public void reset(){
-        this.positionLine = 0;
-    }
 }

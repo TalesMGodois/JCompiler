@@ -1,4 +1,4 @@
-package analyser.lexico;
+package util;
 
 import signature.IToken;
 

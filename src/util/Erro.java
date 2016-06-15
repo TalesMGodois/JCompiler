@@ -1,7 +1,5 @@
 package util;
 
-import analyser.lexico.Token;
-
 /**
  * Created by tales on 08/05/16.
  */

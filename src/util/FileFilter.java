@@ -41,9 +41,8 @@ public class FileFilter implements IFileFilter {
     public void readLines() throws IOException {
         BufferedReader br = new BufferedReader(this.file);
         String current;
-
         while ((current = br.readLine()) != null) {
-            this.sFile = this. sFile + current + "\n";
+            this.sFile += current + '\n';
         }
         this.sFile += "#";
     }
